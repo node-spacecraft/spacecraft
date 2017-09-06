@@ -1,0 +1,28 @@
+{
+  "name": "spacecraft",
+  "version": "1.0.0",
+  "description": "spacecraft-core",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/node-spacecraft/spacecraft.git"
+  },
+  "keywords": [
+    "spacecraft"
+  ],
+  "author": "moonrailgun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/node-spacecraft/spacecraft/issues"
+  },
+  "homepage": "https://github.com/node-spacecraft/spacecraft#readme",
+  "dependencies": {
+    "debug": "^3.0.1"
+  },
+  "devDependencies": {
+    "jest": "^21.0.1"
+  }
+}
