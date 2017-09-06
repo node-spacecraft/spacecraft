@@ -11,7 +11,8 @@
     "url": "git+https://github.com/node-spacecraft/spacecraft.git"
   },
   "keywords": [
-    "spacecraft"
+    "spacecraft",
+    "modularize"
   ],
   "author": "moonrailgun",
   "license": "MIT",

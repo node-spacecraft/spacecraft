@@ -4,5 +4,7 @@ spacecraft v1
 author: moonrailgun(moonrailgun@gmail.com)
 */
 
-module.exports = require('./lib/application.js');
-exports.component = require('./lib/component.js');
+let Spacecraft = require('./lib/application.js');
+
+module.exports = new Spacecraft();// globally unique
+module.exports.component = require('./lib/component.js');
