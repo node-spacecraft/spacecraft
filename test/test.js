@@ -1,9 +1,10 @@
-const spacecraft = require('../');
+const Spacecraft = require('../');
 const DemoComponent = require('./demo-component');
 
 describe('application', () => {
+  let spacecraft;
   beforeAll(() => {
-
+    spacecraft = new Spacecraft();
   })
 
   afterEach(() => {
@@ -11,6 +12,7 @@ describe('application', () => {
   })
 
   test('create application', () => {
+    expect(Spacecraft).not.toBeNull();
     expect(spacecraft).not.toBeNull();
   });
 

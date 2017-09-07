@@ -4,4 +4,4 @@ spacecraft v1
 author: moonrailgun(moonrailgun@gmail.com)
 */
 
-module.exports = require('./lib/application.js');
+module.exports = require('./lib/component.js');
