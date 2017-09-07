@@ -4,7 +4,7 @@
   "description": "spacecraft-core",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit"
+    "test": "jest --forceExit --coverage"
   },
   "repository": {
     "type": "git",
