@@ -4,7 +4,8 @@
   "description": "spacecraft-core",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit --coverage"
+    "test": "jest --forceExit --coverage",
+    "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "debug": "^3.0.1"
   },
   "devDependencies": {
+    "coveralls": "^2.13.1",
     "jest": "^21.0.1"
   }
 }
