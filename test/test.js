@@ -1,4 +1,5 @@
 const Spacecraft = require('../');
+const Component = require('../component');
 const DemoComponent = require('./demo-component');
 
 describe('application', () => {
@@ -8,7 +9,7 @@ describe('application', () => {
   })
 
   afterEach(() => {
-    // TODO: reset
+    spacecraft.unmount();
   })
 
   test('create application', () => {
@@ -16,56 +17,113 @@ describe('application', () => {
     expect(spacecraft).not.toBeNull();
   });
 
+  test('base component', () => {
+    let baseComponent = new Component();
+    expect(baseComponent.getComponentName()).toBe('component');
+  });
+
   test('demo component', () => {
     let demoComponent = new DemoComponent();
+    let demoComponent2 = new DemoComponent('demo2');
     expect(demoComponent.getInfo()).toEqual({name: 'demo', version: '1.0.0'});
+    expect(demoComponent2.getInfo()).toEqual({name: 'demo2', version: '1.0.0'});
     expect(demoComponent.getComponentName()).toBe('demo');
   });
 
-  test('mount error component', () => {
-    expect(() => {
-      spacecraft.mount()
-    }).toThrowError();
-    expect(() => {
-      spacecraft.mount({})
-    }).toThrowError();
-    expect(() => {
-      spacecraft.mount(new Function())
-    }).toThrowError('component should extends by `spacecraft/component`');
-  });
-
-  test('mount component', (done) => {
-    spacecraft.once('demo-mount', (app) => {
-      expect(app).toEqual(spacecraft);
-      done()
+  describe('mount', () => {
+    test('mount error component', () => {
+      expect(() => {
+        spacecraft.mount()
+      }).toThrowError();
+      expect(() => {
+        spacecraft.mount({})
+      }).toThrowError();
+      expect(() => {
+        spacecraft.mount(new Function())
+      }).toThrowError('component should extends by `spacecraft/component`');
     });
-    spacecraft.mount(DemoComponent);
-  });
 
-  test('mount component duplicate', () => {
-    spacecraft.mount(DemoComponent);
-    spacecraft.mount(DemoComponent);
-    expect(spacecraft.getComponentNum()).toBe(1);
-  });
+    test('mount component', (done) => {
+      spacecraft.once('demo-mount', (app) => {
+        expect(app).toEqual(spacecraft);
+        done()
+      });
+      spacecraft.mount(new DemoComponent());
+    });
+
+    test('mount component duplicate', () => {
+      spacecraft.mount(new DemoComponent());
+      spacecraft.mount(new DemoComponent());
+      expect(spacecraft.getComponentNum()).toBe(1);
+    });
+
+    test('mount component more', () => {
+      spacecraft.mount(new DemoComponent());
+      spacecraft.mount(new DemoComponent());
+      spacecraft.mount(new DemoComponent('demo2'));
+      expect(spacecraft.getComponentNum()).toBe(2);
+    });
+  })
 
   test('load component', (done) => {
     spacecraft.once('demo-load', () => {
       done();
     });
-    spacecraft.mount(DemoComponent);
+    spacecraft.mount(new DemoComponent());
     spacecraft.run();
   });
 
-  test('unmount component', (done) => {
-    spacecraft.once('demo-load', () => {
-      spacecraft.once('demo-unmount', () => {
-        done();
+  describe('unmount', () => {
+    test('unmount all component', (done) => {
+      spacecraft.once('demo-load', () => {
+        spacecraft.once('demo-unmount', () => {
+          done();
+        });
       });
+      spacecraft.mount(new DemoComponent());
+      spacecraft.run();
+      spacecraft.unmount();
+      expect(spacecraft.getComponentNum()).toBe(0);
     });
-    spacecraft.mount(DemoComponent);
-    spacecraft.run();
-    spacecraft.unmount();
-  });
+
+    test('unmount spec component', (done) => {
+      spacecraft.once('demo-load', () => {
+        spacecraft.once('demo-unmount', () => {
+          done();
+        });
+      });
+      let dc = new DemoComponent();
+      spacecraft.mount(dc);
+      spacecraft.run();
+      spacecraft.unmount(dc);
+      expect(spacecraft.getComponentNum()).toBe(0);
+    });
+  })
+
+  describe('reset', () => {
+    test('reset all component', (done) => {
+      spacecraft.once('demo-load', () => {
+        spacecraft.once('demo-reset', () => {
+          done();
+        });
+      });
+      spacecraft.mount(new DemoComponent());
+      spacecraft.run();
+      spacecraft.reset();
+    });
+
+    test('reset spec component', (done) => {
+      spacecraft.once('demo-load', () => {
+        spacecraft.once('demo-reset', () => {
+          done();
+        });
+      });
+      let dc = new DemoComponent();
+      spacecraft.mount(dc);
+      spacecraft.run();
+      spacecraft.reset(dc);
+    });
+  })
 
   describe('configure settings', () => {
     test('set and get', () => {
