@@ -4,7 +4,7 @@
   "description": "spacecraft-core",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit --coverage",
+    "test": "SCL_SILENT=true jest --forceExit --coverage",
     "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/node-spacecraft/spacecraft#readme",
   "dependencies": {
     "debug": "^3.0.1",
+    "spacecraft-logger": "^1.1.0",
     "tracer": "^0.8.11"
   },
   "devDependencies": {
