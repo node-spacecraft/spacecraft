@@ -14,6 +14,7 @@ class DemoComponent extends Component {
   }
 
   onMount() {
+    super.onMount();
     this.app.emit('demo-mount', this.app);
   }
 
